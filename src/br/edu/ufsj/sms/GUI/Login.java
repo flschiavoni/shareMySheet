@@ -10,10 +10,11 @@ package br.edu.ufsj.sms.GUI;
  * @author flavio
  */
 public class Login extends java.awt.Dialog {
-
+    
     public Login(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        jTextField1.setText(System.getProperty("user.name"));
     }
 
     /**
@@ -33,7 +34,7 @@ public class Login extends java.awt.Dialog {
         jPanel5 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jSpinner1 = new javax.swing.JSpinner();
         jPanel10 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -66,8 +67,8 @@ public class Login extends java.awt.Dialog {
         jLabel2.setPreferredSize(new java.awt.Dimension(200, 18));
         jPanel5.add(jLabel2);
 
-        jTextField2.setText("8888");
-        jPanel5.add(jTextField2);
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(8000, 8000, 9000, 1));
+        jPanel5.add(jSpinner1);
         jPanel5.add(jPanel10);
 
         add(jPanel5);
@@ -95,13 +96,13 @@ public class Login extends java.awt.Dialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     public String getName() {
         return jTextField1.getText();
     }
-
+    
     public int getPort() {
-        return Integer.parseInt(jTextField2.getText());
+        return ((Integer) jSpinner1.getValue()).intValue();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -116,7 +117,7 @@ public class Login extends java.awt.Dialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

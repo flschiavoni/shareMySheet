@@ -5,49 +5,22 @@
  */
 package br.edu.ufsj.sms.net;
 
-import java.awt.image.BufferedImage;
-import java.io.Serializable;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 
 /**
  *
  * @author flavio
  */
-public class Message implements Serializable {
+public abstract class Message {
 
-    private String name;
-    private byte[] imageByte;
-
-    public Message(String name, byte[] imageByte) {
-        this.name = name;
-        this.imageByte = imageByte;
+    public byte[] toByteArray() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutput out = new ObjectOutputStream(baos);
+        out.writeObject(this);
+        out.flush();
+        return baos.toByteArray();
     }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the imageByte
-     */
-    public byte[] getImageByte() {
-        return imageByte;
-    }
-
-    /**
-     * @param imageByte the image to set
-     */
-    public void setImageByte(byte[] imageByte) {
-        this.imageByte = imageByte;
-    }
-
 }

@@ -33,13 +33,13 @@ public class Main {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(br.edu.ufsj.sms.GUI.Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(br.edu.ufsj.sms.GUI.MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(br.edu.ufsj.sms.GUI.Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(br.edu.ufsj.sms.GUI.MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(br.edu.ufsj.sms.GUI.Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(br.edu.ufsj.sms.GUI.MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(br.edu.ufsj.sms.GUI.Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(br.edu.ufsj.sms.GUI.MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -50,10 +50,15 @@ public class Main {
                     Login login = new Login(null, true);
                     login.setVisible(true);
                     String name = login.getName();
+                    if (name.equals("Chat")) {
+                        System.out.println("Invalid name");
+                        login.dispose();
+                        return;
+                    }
                     int port = login.getPort();
                     login.dispose();
-                    br.edu.ufsj.sms.GUI.Main main;
-                    main = new br.edu.ufsj.sms.GUI.Main(name, port);
+                    br.edu.ufsj.sms.GUI.MainWindow main;
+                    main = new br.edu.ufsj.sms.GUI.MainWindow(name, port);
                     main.setVisible(true);
                 } catch (UnknownHostException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

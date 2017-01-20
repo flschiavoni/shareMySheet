@@ -5,7 +5,7 @@
  */
 package br.edu.ufsj.sms.net;
 
-import br.edu.ufsj.sms.GUI.Main;
+import br.edu.ufsj.sms.GUI.MainWindow;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,11 +30,11 @@ public class Socket extends Thread {
 
     private MulticastSocket multicastSocket;
     private InetAddress address;
-    private Main main;
+    private MainWindow main;
 
-    public Socket(Main main) throws UnknownHostException {
+    public Socket(MainWindow main) throws UnknownHostException {
         this.main = main;
-        this.address = InetAddress.getByName(Main.INET_ADDR);
+        this.address = InetAddress.getByName(MainWindow.INET_ADDR);
         try {
             multicastSocket = new MulticastSocket(this.main.getPort());
             multicastSocket.setSendBufferSize(256000);
@@ -48,27 +48,25 @@ public class Socket extends Thread {
     }
 
     public void receive() throws UnknownHostException, IOException, ClassNotFoundException {
-
         byte[] buf = new byte[256000];
-
         while (true) {
             // Receive the information and print it.
             DatagramPacket msgPacket = new DatagramPacket(buf, buf.length);
             multicastSocket.receive(msgPacket);
-
             ByteArrayInputStream bis = new ByteArrayInputStream(msgPacket.getData());
             ObjectInput in = new ObjectInputStream(bis);
-            Message message = (Message) in.readObject();
-            this.main.receiveMessage(message);
+            Object message;
+            message = in.readObject();
+            if (message instanceof ScreenCastMessage) {
+                this.main.receiveScreenCastMessage((ScreenCastMessage) message);
+            }
+            if (message instanceof ChatMessage) {
+                this.main.receiveChatMessage((ChatMessage) message);
+            }
         }
     }
 
-    public void send(Message message) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutput out = new ObjectOutputStream(baos);
-        out.writeObject(message);
-        out.flush();
-        byte[] msg = baos.toByteArray();
+    public void send(byte[] msg) throws IOException {
         DatagramPacket msgPacket;
         msgPacket = new DatagramPacket(msg, msg.length, this.address, this.main.getPort());
         multicastSocket.send(msgPacket);
@@ -78,9 +76,7 @@ public class Socket extends Thread {
     public void run() {
         try {
             this.receive();
-        } catch (IOException ex) {
-            Logger.getLogger(Socket.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Socket.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

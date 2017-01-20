@@ -20,14 +20,10 @@ import javax.imageio.ImageIO;
  */
 public class ScreenShot {
 
-    public ScreenShot() {
-    }
-
     public BufferedImage takeAShot() throws AWTException, IOException {
         Robot robot = new Robot();
         Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         BufferedImage output = robot.createScreenCapture(screenRect);
         return output;
     }
-
 }
