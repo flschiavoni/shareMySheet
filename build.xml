@@ -26,7 +26,11 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/ShareMySheet-${DSTAMP}.jar" basedir="${build}"/>
+    <jar destfile="${dist}/lib/ShareMySheet-${DSTAMP}.jar" basedir="${build}">
+        <manifest>
+            <attribute name="Main-Class" value="br.edu.ufsj.sms.Main"/>
+        </manifest>
+    </jar>
   </target>
 
   <target name="clean"
