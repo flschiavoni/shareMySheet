@@ -9,12 +9,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  *
  * @author flavio
  */
-public abstract class Message {
+public abstract class Message implements Serializable{
 
     public byte[] toByteArray() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

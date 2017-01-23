@@ -5,13 +5,11 @@
  */
 package br.edu.ufsj.sms.net;
 
-import java.io.Serializable;
-
 /**
  *
  * @author flavio
  */
-public class ChatMessage extends Message implements Serializable{
+public class ChatMessage extends Message{
 
     private String text;
     private String name;

@@ -5,19 +5,17 @@
  */
 package br.edu.ufsj.sms.net;
 
-import java.io.Serializable;
-
 /**
  *
  * @author flavio
  */
-public class ScreenCastMessage extends Message implements Serializable {
+public class ScreenCastMessage extends Message {
 
-    private byte[] imageByte;
     private String name;
+    private int y;
+    private byte[] imageByte;
 
     public ScreenCastMessage() {
-
     }
 
     public ScreenCastMessage(String name, byte[] imageByte) {

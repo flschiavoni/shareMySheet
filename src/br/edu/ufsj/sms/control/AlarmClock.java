@@ -5,7 +5,6 @@
  */
 package br.edu.ufsj.sms.control;
 
-import br.edu.ufsj.sms.GUI.ScreenShot;
 import br.edu.ufsj.sms.net.ScreenCastMessage;
 import br.edu.ufsj.sms.net.Socket;
 import java.awt.AWTException;
@@ -21,10 +20,10 @@ import java.util.logging.Logger;
  */
 public class AlarmClock extends TimerTask {
 
-    ScreenShot ss;
-    String name;
-    Socket socket;
-    float compressRatio;
+    private final ScreenShot ss;
+    private final String name;
+    private final Socket socket;
+    private float compressRatio;
     
     public AlarmClock(String name, Socket socket) {
         ss = new ScreenShot();
@@ -39,7 +38,15 @@ public class AlarmClock extends TimerTask {
         try {
             BufferedImage image = ss.takeAShot();
             BufferedImage rescaled = ImageTransformation.resize(image, 1024, 768);
+
+            int size = ImageTransformation.toByteArray(rescaled).length / 65000;
+            size++;
+            int number_of_cuts = rescaled.getWidth() / size;
+            
             byte[] byteImage = ImageTransformation.compress(rescaled, compressRatio);
+            for (int i = 0 ; i < size ; i++){
+                
+            }
             ScreenCastMessage message = new ScreenCastMessage(this.name, byteImage);
             msg = message.toByteArray();
         } catch (AWTException | IOException ex) {
