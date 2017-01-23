@@ -24,11 +24,14 @@ public class MenuBar extends JMenuBar {
     private javax.swing.JMenuItem showChatWindowMenu;
     private javax.swing.JMenu viewMenu;
 
-    private MainWindow mainWindow;
+    private final MainWindow mainWindow;
 
     public MenuBar(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
+        this.initComponents();
+    }
 
+    private void initComponents() {
         fileMenu = new javax.swing.JMenu();
         closeTabMenu = new javax.swing.JMenuItem();
         exitMenu = new javax.swing.JMenuItem();
@@ -40,64 +43,33 @@ public class MenuBar extends JMenuBar {
         aboutMenu = new javax.swing.JMenuItem();
 
         fileMenu.setText("File");
-        fileMenu.setToolTipText("");
-
         closeTabMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         closeTabMenu.setText("Close Current Tab");
-        closeTabMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeTabMenuActionPerformed(evt);
-            }
-        });
-        fileMenu.add(closeTabMenu);
-
+        closeTabMenu.addActionListener(this::closeTabMenuActionPerformed);
         exitMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         exitMenu.setText("Exit");
-        exitMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuActionPerformed(evt);
-            }
-        });
+        exitMenu.addActionListener(this::exitMenuActionPerformed);
+        fileMenu.add(closeTabMenu);
         fileMenu.add(exitMenu);
-
         this.add(fileMenu);
 
         editMenu.setText("Edit");
-
         shareMySheetMenu.setText("Share My Sheet!");
-        shareMySheetMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                shareMySheetMenuActionPerformed(evt);
-            }
-        });
+        shareMySheetMenu.addActionListener(this::shareMySheetMenuActionPerformed);
         editMenu.add(shareMySheetMenu);
-
         this.add(editMenu);
 
         viewMenu.setText("View");
-
         showChatWindowMenu.setText("Chat Window");
-        showChatWindowMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showChatWindowMenuActionPerformed(evt);
-            }
-        });
+        showChatWindowMenu.addActionListener(this::showChatWindowMenuActionPerformed);
         viewMenu.add(showChatWindowMenu);
-
         this.add(viewMenu);
 
         helpMenu.setText("Help");
-
         aboutMenu.setText("About");
-        aboutMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aboutMenuActionPerformed(evt);
-            }
-        });
+        aboutMenu.addActionListener(this::aboutMenuActionPerformed);
         helpMenu.add(aboutMenu);
-
         this.add(helpMenu);
-
     }
 
     private void showChatWindowMenuActionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,13 +81,12 @@ public class MenuBar extends JMenuBar {
     }
 
     private void shareMySheetMenuActionPerformed(java.awt.event.ActionEvent evt) {
+        mainWindow.shareMySheet(shareMySheetMenu.isSelected());
         if (shareMySheetMenu.isSelected()) {
             shareMySheetMenu.setText("Stop sharing it!");
         } else {
             shareMySheetMenu.setText("Share My Sheer!");
         }
-
-        mainWindow.shareMySheet(shareMySheetMenu.isSelected());
     }
 
     private void closeTabMenuActionPerformed(java.awt.event.ActionEvent evt) {

@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class ScreenShot {
 
-    public BufferedImage takeAShot() throws AWTException, IOException {
+    public static BufferedImage takeAShot() throws AWTException, IOException {
         Robot robot = new Robot();
         Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         BufferedImage output = robot.createScreenCapture(screenRect);

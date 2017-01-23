@@ -35,14 +35,12 @@ public final class Login extends JDialog {
     JButton cancelButton = new JButton("Cancel");
 
     public Login() {
-        setupUI();
-        setUpListeners();
+        initComponents();
         this.setSize(400, 150);
         this.setModal(true);
     }
 
-    public void setupUI() {
-
+    public void initComponents() {
         this.setTitle("Login");
 
         portField.setModel(new javax.swing.SpinnerNumberModel(8000, 8000, 9000, 1));
@@ -83,9 +81,7 @@ public final class Login extends JDialog {
 
         this.add(topPanel);
         this.add(buttonPanel, BorderLayout.SOUTH);
-    }
 
-    private void setUpListeners() {
         okButton.addActionListener((ActionEvent e) -> {
             Login.this.setVisible(false);
         });

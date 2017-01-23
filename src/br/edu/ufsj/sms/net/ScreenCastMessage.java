@@ -12,7 +12,6 @@ package br.edu.ufsj.sms.net;
 public class ScreenCastMessage extends Message {
 
     private String name;
-    private int y;
     private byte[] imageByte;
 
     public ScreenCastMessage() {

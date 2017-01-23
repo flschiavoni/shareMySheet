@@ -6,9 +6,12 @@
 package br.edu.ufsj.sms.GUI;
 
 import br.edu.ufsj.sms.control.AlarmClock;
+import br.edu.ufsj.sms.control.ImageTransformation;
+import br.edu.ufsj.sms.control.ScreenShot;
 import br.edu.ufsj.sms.net.ChatMessage;
 import br.edu.ufsj.sms.net.ScreenCastMessage;
 import br.edu.ufsj.sms.net.Socket;
+import java.awt.AWTException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -28,29 +31,30 @@ import javax.swing.JLabel;
  */
 public class MainWindow extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainWindow
-     */
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel status;
+    private javax.swing.JPanel statusPanel;
+    private javax.swing.JTabbedPane tabbedPane;
+    private ChatWindow chatWindow;
+
     private Socket socket;
     private AlarmClock alarmClock;
     private Timer timer;
-    public final static String INET_ADDR = "224.0.0.3";
     public final static int TIME = 1000;
 
     private String name;
     private int port;
 
-    private ChatWindow chatWindow;
+    private float compressRatio;
 
     public MainWindow(String name, int port) throws UnknownHostException {
         this.name = name;
         this.port = port;
+        this.compressRatio = 0.5f;
         this.initComponents();
     }
 
     private void initComponents() throws UnknownHostException {
-
-        this.setSize(new java.awt.Dimension(1024, 768));
         this.setJMenuBar(new MenuBar(this));
         this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("Share My Sheet");
@@ -75,7 +79,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.chatWindow = new ChatWindow(this);
 
         this.socket.start();
-
+        this.setSize(new java.awt.Dimension(1024, 768));
     }
 
     public void showChatWindow() {
@@ -89,7 +93,7 @@ public class MainWindow extends javax.swing.JFrame {
     public void shareMySheet(boolean status) {
         if (status) {
             this.timer = new Timer();
-            this.alarmClock = new AlarmClock(this.name, this.socket);
+            this.alarmClock = new AlarmClock(this);
             this.timer.scheduleAtFixedRate(this.alarmClock, 0, MainWindow.TIME);
         } else {
             this.timer.cancel();
@@ -101,6 +105,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public void exit() {
+        this.chatWindow.setVisible(true);
         this.setVisible(false);
         this.dispose();
         System.exit(0);
@@ -115,22 +120,44 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    public void sendScreenCastMessage() {
+        byte[] msg = null;
+        try {
+            BufferedImage image = ScreenShot.takeAShot();
+            BufferedImage rescaled = ImageTransformation.resize(image, 1024, 768);
+            byte[] byteImage = ImageTransformation.compress(rescaled, compressRatio);
+            ScreenCastMessage message = new ScreenCastMessage(this.name, byteImage);
+            msg = message.toByteArray();
+        } catch (AWTException | IOException ex) {
+            Logger.getLogger(AlarmClock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (msg != null) {
+            try {
+                this.socket.send(msg);
+            } catch (IOException ex) {
+                Logger.getLogger(AlarmClock.class.getName()).log(Level.SEVERE, null, ex);
+                this.compressRatio -= 0.05f;
+            }
+        }
+    }
+
     public void receiveScreenCastMessage(ScreenCastMessage message) {
-        // Verificar se a aba existe, se existir, atualizo.
         ByteArrayInputStream bais = new ByteArrayInputStream(message.getImageByte());
         BufferedImage image;
         try {
+
+            image = ImageIO.read(bais);
+            ImageIcon imageIcon = new ImageIcon(image);
+
+            JLabel myShoot = new JLabel(imageIcon);
+
             for (int i = 0; i < tabbedPane.getTabCount(); i++) {
                 String title = tabbedPane.getTitleAt(i);
                 if (title.equals(message.getName())) {
-                    image = ImageIO.read(bais);
-                    JLabel myShoot = new JLabel(new ImageIcon(image));
                     tabbedPane.setComponentAt(i, myShoot);
                     return;
                 }
             }
-            image = ImageIO.read(bais);
-            JLabel myShoot = new JLabel(new ImageIcon(image));
             tabbedPane.addTab(message.getName(), myShoot);
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,39 +172,11 @@ public class MainWindow extends javax.swing.JFrame {
                 + message.getText() + "<br>");
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel status;
-    private javax.swing.JPanel statusPanel;
-    private javax.swing.JTabbedPane tabbedPane;
-    // End of variables declaration//GEN-END:variables
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
     /**
      * @return the port
      */
     public int getPort() {
         return port;
-    }
-
-    /**
-     * @param port the port to set
-     */
-    public void setPort(int port) {
-        this.port = port;
     }
 
 }

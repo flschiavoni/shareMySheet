@@ -26,10 +26,11 @@ public class Socket extends Thread {
     private MulticastSocket multicastSocket;
     private InetAddress address;
     private MainWindow main;
+    public final static String INET_ADDR = "224.0.0.3";
 
     public Socket(MainWindow main) throws UnknownHostException {
         this.main = main;
-        this.address = InetAddress.getByName(MainWindow.INET_ADDR);
+        this.address = InetAddress.getByName(Socket.INET_ADDR);
         try {
             multicastSocket = new MulticastSocket(this.main.getPort());
             multicastSocket.setSendBufferSize(256000);
@@ -40,6 +41,12 @@ public class Socket extends Thread {
             System.out.println("There is no socket connection. Sorry.");
             System.out.println(ex.toString());
         }
+    }
+
+    public void send(byte[] msg) throws IOException {
+        DatagramPacket msgPacket;
+            msgPacket = new DatagramPacket(msg, msg.length, this.address, this.main.getPort());
+            multicastSocket.send(msgPacket);
     }
 
     public void receive() throws UnknownHostException, IOException, ClassNotFoundException {
@@ -59,12 +66,6 @@ public class Socket extends Thread {
                 this.main.receiveChatMessage((ChatMessage) message);
             }
         }
-    }
-
-    public void send(byte[] msg) throws IOException {
-        DatagramPacket msgPacket;
-        msgPacket = new DatagramPacket(msg, msg.length, this.address, this.main.getPort());
-        multicastSocket.send(msgPacket);
     }
 
     @Override
