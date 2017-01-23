@@ -45,16 +45,12 @@ public class Main {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
-                    Login login = new Login(null, true);
+                    Login login = new Login();
                     login.setVisible(true);
                     String name = login.getName();
-                    if (name.equals("Chat")) {
-                        System.out.println("Invalid name");
-                        login.dispose();
-                        return;
-                    }
                     int port = login.getPort();
                     login.dispose();
                     br.edu.ufsj.sms.GUI.MainWindow main;
