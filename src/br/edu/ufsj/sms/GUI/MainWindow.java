@@ -40,6 +40,8 @@ public class MainWindow extends javax.swing.JFrame {
     private String name;
     private int port;
 
+    private ChatWindow chatWindow;
+
     public MainWindow(String name, int port) throws UnknownHostException {
         initComponents();
         this.name = name;
@@ -48,6 +50,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.socket.start();
         this.timer = new Timer();
         jLabel1.setText("Connected on port " + this.port + " name " + this.name);
+        this.chatWindow = new ChatWindow(this);
     }
 
     /**
@@ -59,98 +62,109 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        shareButton = new javax.swing.JToggleButton();
+        jMenu4 = new javax.swing.JMenu();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jSplitPane1 = new javax.swing.JSplitPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        chatBoard = new javax.swing.JEditorPane();
-        jPanel3 = new javax.swing.JPanel();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        closeTabMenu = new javax.swing.JMenuItem();
+        quitMenu = new javax.swing.JMenuItem();
+        editMenu = new javax.swing.JMenu();
+        shareMySheetMenu = new javax.swing.JCheckBoxMenuItem();
+        viewMenu = new javax.swing.JMenu();
+        showChatWindowMenu = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
+        aboutMenu = new javax.swing.JMenuItem();
+
+        jMenu4.setText("jMenu4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Share My Sheet");
 
-        jToolBar1.setRollover(true);
-
-        shareButton.setText("Share My Sheet!");
-        shareButton.setFocusable(false);
-        shareButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        shareButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        shareButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                shareButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(shareButton);
-
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
-
-        jSplitPane1.setDividerLocation(400);
-        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-
-        chatBoard.setContentType("text/html"); // NOI18N
-        jScrollPane3.setViewportView(chatBoard);
-
-        jSplitPane1.setLeftComponent(jScrollPane3);
-
-        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jPanel3.add(jTextArea2);
-
-        jButton1.setText("Send");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton1);
-
-        jSplitPane1.setBottomComponent(jPanel3);
-
-        jPanel2.add(jSplitPane1);
-
-        jTabbedPane1.addTab("Chat", jPanel2);
-
         jScrollPane1.setViewportView(jTabbedPane1);
 
-        jLabel1.setText("jLabel1");
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
-        );
+        jLabel1.setText("jLabel1");
+        jPanel1.add(jLabel1);
+
+        fileMenu.setText("File");
+        fileMenu.setToolTipText("");
+
+        closeTabMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        closeTabMenu.setText("Close Current Tab");
+        closeTabMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeTabMenuActionPerformed(evt);
+            }
+        });
+        fileMenu.add(closeTabMenu);
+
+        quitMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        quitMenu.setText("Quit");
+        quitMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitMenuActionPerformed(evt);
+            }
+        });
+        fileMenu.add(quitMenu);
+
+        jMenuBar1.add(fileMenu);
+
+        editMenu.setText("Edit");
+
+        shareMySheetMenu.setText("Share My Sheet!");
+        shareMySheetMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shareMySheetMenuActionPerformed(evt);
+            }
+        });
+        editMenu.add(shareMySheetMenu);
+
+        jMenuBar1.add(editMenu);
+
+        viewMenu.setText("View");
+
+        showChatWindowMenu.setText("Chat Window");
+        showChatWindowMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showChatWindowMenuActionPerformed(evt);
+            }
+        });
+        viewMenu.add(showChatWindowMenu);
+
+        jMenuBar1.add(viewMenu);
+
+        helpMenu.setText("Help");
+
+        aboutMenu.setText("About");
+        aboutMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuActionPerformed(evt);
+            }
+        });
+        helpMenu.add(aboutMenu);
+
+        jMenuBar1.add(helpMenu);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 846, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -159,32 +173,44 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void shareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shareButtonActionPerformed
-        if (shareButton.isSelected()) {
+    private void showChatWindowMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showChatWindowMenuActionPerformed
+        this.chatWindow.setVisible(true);
+    }//GEN-LAST:event_showChatWindowMenuActionPerformed
+
+    private void aboutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_aboutMenuActionPerformed
+
+    private void shareMySheetMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shareMySheetMenuActionPerformed
+        if (shareMySheetMenu.isSelected()) {
             this.timer = new Timer();
             this.alarmClock = new AlarmClock(this.name, this.socket);
             this.timer.scheduleAtFixedRate(this.alarmClock, 0, MainWindow.TIME);
-            shareButton.setText("Stop sharing it!");
+            shareMySheetMenu.setText("Stop sharing it!");
         } else {
             this.timer.cancel();
-            shareButton.setText("Share My Sheet!");
+            shareMySheetMenu.setText("Share My Sheet!");
         }
-    }//GEN-LAST:event_shareButtonActionPerformed
+    }//GEN-LAST:event_shareMySheetMenuActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (jTextArea2.getText().trim().length() == 0) {
-            return;
-        }
-        ChatMessage message = new ChatMessage();
-        message.setText(jTextArea2.getText());
-        message.setName(this.name);
+    private void closeTabMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeTabMenuActionPerformed
+        jTabbedPane1.remove(jTabbedPane1.getSelectedIndex());
+    }//GEN-LAST:event_closeTabMenuActionPerformed
+
+    private void quitMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitMenuActionPerformed
+        this.setVisible(false);
+        this.dispose();
+        System.exit(0);
+    }//GEN-LAST:event_quitMenuActionPerformed
+
+    public void sendChatMessage(String text) {
+        ChatMessage message = new ChatMessage(this.name, text);
         try {
             this.socket.send(message.toByteArray());
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jTextArea2.setText("");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
     public void receiveScreenCastMessage(ScreenCastMessage message) {
         // Verificar se a aba existe, se existir, atualizo.
@@ -212,26 +238,27 @@ public class MainWindow extends javax.swing.JFrame {
     public void receiveChatMessage(ChatMessage message) {
         SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyyy hh:mm:ss");
         Date date = new Date();
-        chatBoard.setText(dt.format(date) + " | " + 
-                "<b>" + message.getName() + "</b>: "+ 
-                message.getText() + "<br>" + 
-                chatBoard.getText()
-        );
+        chatWindow.receiveChatMessage(dt.format(date) + " | "
+                + "<b>" + message.getName() + "</b>: "
+                + message.getText() + "<br>");
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JEditorPane chatBoard;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JMenuItem aboutMenu;
+    private javax.swing.JMenuItem closeTabMenu;
+    private javax.swing.JMenu editMenu;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu helpMenu;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JToggleButton shareButton;
+    private javax.swing.JMenuItem quitMenu;
+    private javax.swing.JCheckBoxMenuItem shareMySheetMenu;
+    private javax.swing.JMenuItem showChatWindowMenu;
+    private javax.swing.JMenu viewMenu;
     // End of variables declaration//GEN-END:variables
 
     /**

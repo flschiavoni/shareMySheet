@@ -13,11 +13,11 @@ import java.io.Serializable;
  */
 public class ScreenCastMessage extends Message implements Serializable {
 
-    private String name;
     private byte[] imageByte;
+    private String name;
 
-    public ScreenCastMessage(){
-        
+    public ScreenCastMessage() {
+
     }
 
     public ScreenCastMessage(String name, byte[] imageByte) {
@@ -52,6 +52,5 @@ public class ScreenCastMessage extends Message implements Serializable {
     public void setImageByte(byte[] imageByte) {
         this.imageByte = imageByte;
     }
-
 
 }

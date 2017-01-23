@@ -12,8 +12,27 @@ import java.io.Serializable;
  * @author flavio
  */
 public class ChatMessage extends Message implements Serializable{
-    private String name;
+
     private String text;
+    private String name;
+
+    public ChatMessage(String name, String text){
+        this.name = name;
+        this.text = text;
+    }
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * @return the text
@@ -29,17 +48,4 @@ public class ChatMessage extends Message implements Serializable{
         this.text = text;
     }
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
 }
